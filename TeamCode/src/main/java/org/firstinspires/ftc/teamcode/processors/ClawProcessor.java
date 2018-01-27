@@ -15,7 +15,7 @@ public class ClawProcessor extends BaseProcessor {
     public Servo rightClaw = null;
     public double clawOffset = 0;
     public static final double MID_SERVO = 0.5;
-    final double CLAW_SPEED = 0.02;
+    final double CLAW_SPEED = 0.05;
 
     public ClawProcessor(LinearOpMode opMode) {
         super(opMode);
@@ -24,8 +24,8 @@ public class ClawProcessor extends BaseProcessor {
     @Override
     public void init() {
         // Define and initialize ALL installed servos.
-        leftClaw = getHardwareMap().get(Servo.class, "left_claw");
-        rightClaw = getHardwareMap().get(Servo.class, "right_claw" +
+        leftClaw = getHardwareMap().get(Servo.class, "leftClaw");
+        rightClaw = getHardwareMap().get(Servo.class, "rightClaw" +
                 "");
         leftClaw.setPosition(MID_SERVO);
         rightClaw.setPosition(MID_SERVO);

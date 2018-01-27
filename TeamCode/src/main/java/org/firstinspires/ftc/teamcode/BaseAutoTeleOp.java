@@ -30,13 +30,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.processors.ClawProcessor;
-import org.firstinspires.ftc.teamcode.processors.GlyphArmProcessor;
-import org.firstinspires.ftc.teamcode.processors.MovementProcessor;
+import org.firstinspires.ftc.teamcode.processors.GlyphClawAutoProcessor;
+import org.firstinspires.ftc.teamcode.processors.GlyphMovementAutoProcessor;
+import org.firstinspires.ftc.teamcode.processors.JewelSensorAutoArmProcessor;
+import org.firstinspires.ftc.teamcode.processors.MovementAutoProcessor;
+import org.firstinspires.ftc.teamcode.processors.PictographProcessor;
 import org.firstinspires.ftc.teamcode.processors.Processor;
-import org.firstinspires.ftc.teamcode.processors.JewelSensorArmProcessor;
+import org.firstinspires.ftc.teamcode.processors.JewelSensorAutoArmProcessor.JewelColor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,17 +56,26 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pushbot: Teleop", group="Pushbot")
-public class PushbotTeleOp extends LinearOpMode{
+public class BaseAutoTeleOp extends LinearOpMode {
+
+    JewelColor baseColor;
+    boolean relicSide;
+    List<Processor> processors;
+
+    protected BaseAutoTeleOp(JewelColor baseColor, boolean relicSide) {
+        this.baseColor = baseColor;
+        this.relicSide =relicSide;
+    }
 
     @Override
     public void runOpMode() {
 
-        List<Processor> processors = Arrays.asList(
-                (Processor)new ClawProcessor(this),
-                (Processor)new GlyphArmProcessor(this),
-                (Processor)new MovementProcessor(this),
-                (Processor)new JewelSensorArmProcessor(this)
+        processors = Arrays.asList(
+                (Processor)new MovementAutoProcessor(this),
+                (Processor) new GlyphClawAutoProcessor(this),
+                (Processor) new PictographProcessor(this),
+                (Processor) new JewelSensorAutoArmProcessor(this, baseColor),
+                (Processor) new GlyphMovementAutoProcessor(this, baseColor, relicSide)
         );
 
         for (Processor processor : processors) {
@@ -79,13 +89,26 @@ public class PushbotTeleOp extends LinearOpMode{
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            for (Processor processor : processors) {
+        for (Processor processor : processors) {
+            if (opModeIsActive()) {
                 processor.process();
             }
             // Pace this loop so jaw action is reasonable speed.
             sleep(50);
             telemetry.update();
+
         }
     }
+
+
+
+    public Processor  getProcessors(Class clazz){
+        for (Processor processor : processors) {
+            if (clazz.isInstance(processor) ){
+                return processor;
+            }
+        }
+        return null;
+    }
+
 }

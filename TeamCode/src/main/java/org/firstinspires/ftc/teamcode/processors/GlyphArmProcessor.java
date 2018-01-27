@@ -75,9 +75,9 @@ public class GlyphArmProcessor extends BaseProcessor {
                 }
                 glyphArm.setPower(getPower(getGamepad(1).right_trigger));
                 glyphArm.setDirection(DcMotor.Direction.FORWARD);
+            }else{
+                glyphArm.setPower(zeropower);
             }
-            getTelemetry().addData("Left Trigger:", getGamepad(1).left_trigger);
-            getTelemetry().addData("Right Trigger:", getGamepad(1).right_trigger);
             getTelemetry().addData("Trigger",  " left[%.2f] right[%.2f] power [%.2f] [%s]",
                     getGamepad(1).left_trigger, getGamepad(1).right_trigger,
                     glyphArm.getPower(), glyphArm.getDirection().name());

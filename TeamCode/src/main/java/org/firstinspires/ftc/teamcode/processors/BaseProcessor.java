@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.processors;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -29,6 +28,8 @@ public  abstract class BaseProcessor implements Processor{
     protected Gamepad getGamepad( int i){
         return (i==1)? opMode.gamepad1: opMode.gamepad2;
     }
+
+    protected JewelSensorAutoArmProcessor.JewelColor getBaseColor() {return JewelSensorAutoArmProcessor.baseColor;}
 
     protected void sleep(long msec){
         opMode.sleep(msec);

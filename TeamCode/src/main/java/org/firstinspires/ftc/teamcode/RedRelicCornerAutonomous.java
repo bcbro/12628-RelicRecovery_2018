@@ -29,17 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.processors.ClawProcessor;
-import org.firstinspires.ftc.teamcode.processors.GlyphArmProcessor;
-import org.firstinspires.ftc.teamcode.processors.MovementProcessor;
-import org.firstinspires.ftc.teamcode.processors.Processor;
-import org.firstinspires.ftc.teamcode.processors.JewelSensorArmProcessor;
-
-import java.util.Arrays;
-import java.util.List;
+import org.firstinspires.ftc.teamcode.processors.JewelSensorAutoArmProcessor.JewelColor;
 
 /*
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
@@ -55,37 +47,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pushbot: Teleop", group="Pushbot")
-public class PushbotTeleOp extends LinearOpMode{
-
-    @Override
-    public void runOpMode() {
-
-        List<Processor> processors = Arrays.asList(
-                (Processor)new ClawProcessor(this),
-                (Processor)new GlyphArmProcessor(this),
-                (Processor)new MovementProcessor(this),
-                (Processor)new JewelSensorArmProcessor(this)
-        );
-
-        for (Processor processor : processors) {
-            processor.init();
-        }
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver");    //
-        telemetry.update();
-
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
-
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            for (Processor processor : processors) {
-                processor.process();
-            }
-            // Pace this loop so jaw action is reasonable speed.
-            sleep(50);
-            telemetry.update();
-        }
+@Autonomous(name="Pushbot:Red Relic Corner Autonomous", group="Pushbot")
+public class RedRelicCornerAutonomous extends BaseAutoTeleOp{
+     public RedRelicCornerAutonomous(){
+        super(JewelColor.RED, true);
     }
 }

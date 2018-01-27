@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.processors;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /**
  * Created by cisto on 1/4/2018.
@@ -23,8 +24,9 @@ public class MovementProcessor extends BaseProcessor {
     public void init() {
         leftDrive=getHardwareMap().get(DcMotor.class, "leftDrive");
         rightDrive=getHardwareMap().get(DcMotor.class, "rightDrive");
-
     }
+
+
 
     @Override
     public void process() {
@@ -34,7 +36,7 @@ public class MovementProcessor extends BaseProcessor {
         // This way it's also easy to just drive straight, or just turn.
 
         drive = getGamepad(2).right_stick_x;
-        turn  = -getGamepad(2).left_stick_y;
+        turn  = getGamepad(2).right_stick_y;
 
         left  = drive + turn;
         right = drive - turn;
@@ -48,6 +50,6 @@ public class MovementProcessor extends BaseProcessor {
         leftDrive.setPower(left);
         rightDrive.setPower(right);
         getTelemetry().addData("Move",  " left[%.2f] right[%.2f]", left,right);
-
     }
+
 }
