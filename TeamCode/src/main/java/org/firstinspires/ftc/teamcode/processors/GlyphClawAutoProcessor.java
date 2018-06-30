@@ -29,6 +29,7 @@ public class GlyphClawAutoProcessor extends BaseProcessor {
     final int GLYPH_MS = 1000;
 
 
+
     public GlyphClawAutoProcessor(LinearOpMode opMode) {
         super(opMode);
     }
@@ -37,9 +38,7 @@ public class GlyphClawAutoProcessor extends BaseProcessor {
     public void init() {
         // Define and initialize ALL installed servos.
         leftClaw = getHardwareMap().get(Servo.class, "leftClaw");
-        rightClaw = getHardwareMap().get(Servo.class, "rightC" +
-                "law" +
-                "");
+        rightClaw = getHardwareMap().get(Servo.class, "rightClaw");
         moveClaw(-1 * CLAW_MOVE);
         // Define and initialize ALL installed servos.
         glyphArm = getHardwareMap().get(DcMotor.class, "glyph_arm");

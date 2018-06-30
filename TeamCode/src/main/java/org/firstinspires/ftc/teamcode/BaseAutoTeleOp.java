@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.processors.GlyphClawAutoProcessor;
+import org.firstinspires.ftc.teamcode.processors.GlyphEncoderAutoProcessors;
 import org.firstinspires.ftc.teamcode.processors.GlyphMovementAutoProcessor;
 import org.firstinspires.ftc.teamcode.processors.JewelSensorAutoArmProcessor;
 import org.firstinspires.ftc.teamcode.processors.MovementAutoProcessor;
@@ -75,7 +76,7 @@ public class BaseAutoTeleOp extends LinearOpMode {
                 (Processor) new GlyphClawAutoProcessor(this),
                 (Processor) new PictographProcessor(this),
                 (Processor) new JewelSensorAutoArmProcessor(this, baseColor),
-                (Processor) new GlyphMovementAutoProcessor(this, baseColor, relicSide)
+                (Processor) new GlyphEncoderAutoProcessors(this, baseColor, relicSide)
         );
 
         for (Processor processor : processors) {

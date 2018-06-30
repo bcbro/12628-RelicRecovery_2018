@@ -35,7 +35,7 @@ public class MovementProcessor extends BaseProcessor {
         // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
         // This way it's also easy to just drive straight, or just turn.
 
-        drive = getGamepad(2).right_stick_x;
+        drive = getGamepad(2).left_stick_x;
         turn  = getGamepad(2).right_stick_y;
 
         left  = drive + turn;

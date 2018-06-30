@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.BaseAutoTeleOp;
@@ -14,6 +15,12 @@ import org.firstinspires.ftc.teamcode.BaseAutoTeleOp;
  */
 @Autonomous(name="Pushbot: GlyphMovement", group="Pushbot")
 public class GlyphMovementAutoProcessor extends BaseProcessor {
+
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
     boolean relicSide = false;
     JewelSensorAutoArmProcessor.JewelColor baseColor = JewelSensorAutoArmProcessor.JewelColor.UNKOWN;
 
@@ -32,6 +39,8 @@ public class GlyphMovementAutoProcessor extends BaseProcessor {
 
     final double TURN_MOTOR = 0.3;
     final int TURN_SLEEP_MS = 4000;
+
+    private ElapsedTime runtime = new ElapsedTime();
 
 
 
@@ -69,10 +78,10 @@ public class GlyphMovementAutoProcessor extends BaseProcessor {
                 BlueNonRelicCorner();
             }
         }
-        releaseGylph();
+        releaseGlyph();
     }
 
-    public void releaseGylph(){
+    public void releaseGlyph(){
         GlyphClawAutoProcessor processor = (GlyphClawAutoProcessor) ((BaseAutoTeleOp) opMode).getProcessors(GlyphClawAutoProcessor.class);
         processor.drop();
     }
@@ -93,22 +102,100 @@ public class GlyphMovementAutoProcessor extends BaseProcessor {
 
 
     void RedRelicCorner(){
-        drive(36.0 + getVuMarkDiff(), DcMotorSimple.Direction.FORWARD);
-        turnRight();
-        drive(CRYPTO_MOVE, DcMotorSimple.Direction.FORWARD);
+        Move(DcMotorSimple.Direction.FORWARD, 36.0);
+        MoveRight();
+        Move(DcMotorSimple.Direction.FORWARD, 6.0);
+    }
+
+
+    void Move(DcMotorSimple.Direction direction, double distance){
+        double leftDistance=distance;
+        double rightDistance=distance;
+        int newLeftTarget;
+        int newRightTarget;
+        newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftDistance * COUNTS_PER_INCH);
+        newRightTarget = rightDrive.getCurrentPosition() + (int)(rightDistance * COUNTS_PER_INCH);
+        leftDrive.setTargetPosition(newLeftTarget);
+        rightDrive.setTargetPosition(newRightTarget);
+
+        // Turn On RUN_TO_POSITION
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion.
+        runtime.reset();
+        leftDrive.setPower(Math.abs(DRIVE_MOTOR));
+        rightDrive.setPower(Math.abs(DRIVE_MOTOR));
+    }
+
+    void MoveRight(){
+        double leftDistance=12.0;
+        double rightDistance=-12.0;
+        int newLeftTarget;
+        int newRightTarget;
+        newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftDistance * COUNTS_PER_INCH);
+        newRightTarget = rightDrive.getCurrentPosition() + (int)(rightDistance * COUNTS_PER_INCH);
+        leftDrive.setTargetPosition(newLeftTarget);
+        rightDrive.setTargetPosition(newRightTarget);
+
+        // Turn On RUN_TO_POSITION
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion.
+        runtime.reset();
+        leftDrive.setPower(Math.abs(TURN_MOTOR));
+        rightDrive.setPower(Math.abs(TURN_MOTOR));
+    }
+
+    void MoveLeft(){
+        double leftDistance=-12.0;
+        double rightDistance=12.0;
+        int newLeftTarget;
+        int newRightTarget;
+        newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftDistance * COUNTS_PER_INCH);
+        newRightTarget = rightDrive.getCurrentPosition() + (int)(rightDistance * COUNTS_PER_INCH);
+        leftDrive.setTargetPosition(newLeftTarget);
+        rightDrive.setTargetPosition(newRightTarget);
+
+        // Turn On RUN_TO_POSITION
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion.
+        runtime.reset();
+        leftDrive.setPower(Math.abs(TURN_MOTOR));
+        rightDrive.setPower(Math.abs(TURN_MOTOR));
+    }
+
+    private void encoderDrive(double speed, double leftDistance, double rightDistance, double time) {
+        int newLeftTarget;
+        int newRightTarget;
+        newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftDistance * COUNTS_PER_INCH);
+        newRightTarget = rightDrive.getCurrentPosition() + (int)(rightDistance * COUNTS_PER_INCH);
+        leftDrive.setTargetPosition(newLeftTarget);
+        rightDrive.setTargetPosition(newRightTarget);
+
+        // Turn On RUN_TO_POSITION
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion.
+        runtime.reset();
+        leftDrive.setPower(Math.abs(speed));
+        rightDrive.setPower(Math.abs(speed));
     }
 
     void RedNonRelicCorner(){
-        drive(24.0 + CRYPTO_MOVE , DcMotorSimple.Direction.FORWARD);
-        turnLeft();
-        drive(12.0 + getVuMarkDiff(), DcMotorSimple.Direction.FORWARD);
-        //drive(CRYPTO_MOVE, DcMotorSimple.Direction.FORWARD);
+        Move(DcMotorSimple.Direction.FORWARD, 24.0);
+        MoveLeft();
+        Move(DcMotorSimple.Direction.FORWARD, 12.0);
     }
 
     void BlueRelicCorner(){
-        drive(36.0 + getVuMarkDiff(), DcMotorSimple.Direction.REVERSE);
-        turnRight();
-        drive(CRYPTO_MOVE, DcMotorSimple.Direction.FORWARD);
+        Move(DcMotorSimple.Direction.REVERSE, 36.0);
+        MoveRight();
+        Move(DcMotorSimple.Direction.FORWARD, 4.0);
     }
 
     void BlueNonRelicCorner(){
