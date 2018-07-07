@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.processors.BaseProcessor;
 import org.firstinspires.ftc.teamcode.processors.GlyphClawAutoProcessor;
 import org.firstinspires.ftc.teamcode.processors.GlyphEncoderAutoProcessors;
 import org.firstinspires.ftc.teamcode.processors.GlyphMovementAutoProcessor;
@@ -61,7 +62,7 @@ public class BaseAutoTeleOp extends LinearOpMode {
 
     JewelColor baseColor;
     boolean relicSide;
-    List<Processor> processors;
+    List<BaseProcessor> processors;
 
     protected BaseAutoTeleOp(JewelColor baseColor, boolean relicSide) {
         this.baseColor = baseColor;
@@ -72,11 +73,11 @@ public class BaseAutoTeleOp extends LinearOpMode {
     public void runOpMode() {
 
         processors = Arrays.asList(
-                (Processor)new MovementAutoProcessor(this),
-                (Processor) new GlyphClawAutoProcessor(this),
-                (Processor) new PictographProcessor(this),
-                (Processor) new JewelSensorAutoArmProcessor(this, baseColor),
-                (Processor) new GlyphEncoderAutoProcessors(this, baseColor, relicSide)
+                new MovementAutoProcessor(this),
+                new GlyphClawAutoProcessor(this),
+                new PictographProcessor(this),
+                new JewelSensorAutoArmProcessor(this, baseColor),
+                new GlyphEncoderAutoProcessors(this, baseColor, relicSide)
         );
 
         for (Processor processor : processors) {

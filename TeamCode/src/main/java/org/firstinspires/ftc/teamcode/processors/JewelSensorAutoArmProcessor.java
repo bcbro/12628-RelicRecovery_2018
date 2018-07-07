@@ -40,7 +40,7 @@ public class JewelSensorAutoArmProcessor extends BaseProcessor{
 
     public JewelSensorAutoArmProcessor(LinearOpMode opMode, JewelColor baseColor){
         super(opMode);
-        this.baseColor = baseColor;
+        JewelSensorAutoArmProcessor.baseColor = baseColor;
     }
 
 
@@ -50,7 +50,7 @@ public class JewelSensorAutoArmProcessor extends BaseProcessor{
         RED,
         BLUE,
         UNKOWN
-    };
+    }
 
 
     JewelColor getJewelColor(final float values[]) {

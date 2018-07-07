@@ -28,6 +28,9 @@ public class GlyphClawAutoProcessor extends BaseProcessor {
     final double GLYPH_POWER = 0.40;
     final int GLYPH_MS = 1000;
 
+    public void process() {
+        pickUp();
+    }
 
 
     public GlyphClawAutoProcessor(LinearOpMode opMode) {
@@ -39,7 +42,7 @@ public class GlyphClawAutoProcessor extends BaseProcessor {
         // Define and initialize ALL installed servos.
         leftClaw = getHardwareMap().get(Servo.class, "leftClaw");
         rightClaw = getHardwareMap().get(Servo.class, "rightClaw");
-        moveClaw(-1 * CLAW_MOVE);
+        moveClaw(-CLAW_MOVE);
         // Define and initialize ALL installed servos.
         glyphArm = getHardwareMap().get(DcMotor.class, "glyph_arm");
         glyphArm.setPower(0);
@@ -47,15 +50,6 @@ public class GlyphClawAutoProcessor extends BaseProcessor {
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         glyphArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-    }
-
-    @Override
-    public void process() {
-        pickUp();
-    }
-
-    public void pickUpJewelArm() {
 
     }
 
@@ -70,7 +64,7 @@ public class GlyphClawAutoProcessor extends BaseProcessor {
         glyphArm.setPower(GLYPH_POWER);
         sleep(GLYPH_MS);
         glyphArm.setPower(0);
-        moveClaw(   CLAW_MOVE);
+        moveClaw(CLAW_MOVE);
     }
 
     public void moveClaw(double clawOffset){

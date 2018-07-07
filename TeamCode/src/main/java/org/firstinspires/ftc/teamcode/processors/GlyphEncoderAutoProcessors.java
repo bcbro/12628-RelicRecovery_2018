@@ -75,8 +75,8 @@ public class GlyphEncoderAutoProcessors extends BaseProcessor{
             leftDistance= distance;
             rightDistance = distance;
         }
-        newLeftTarget = leftDrive.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
-        newRightTarget = rightDrive.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftDistance * COUNTS_PER_INCH);
+        newRightTarget = rightDrive.getCurrentPosition() + (int)(rightDistance * COUNTS_PER_INCH);
         leftDrive.setTargetPosition(newLeftTarget);
         rightDrive.setTargetPosition(newRightTarget);
 

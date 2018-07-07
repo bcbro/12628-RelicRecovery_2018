@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.processors.BaseProcessor;
 import org.firstinspires.ftc.teamcode.processors.ClawProcessor;
 import org.firstinspires.ftc.teamcode.processors.GlyphArmProcessor;
 import org.firstinspires.ftc.teamcode.processors.MovementProcessor;
@@ -61,11 +62,11 @@ public class PushbotTeleOp extends LinearOpMode{
     @Override
     public void runOpMode() {
 
-        List<Processor> processors = Arrays.asList(
-                (Processor)new ClawProcessor(this),
-                (Processor)new GlyphArmProcessor(this),
-                (Processor)new MovementProcessor(this),
-                (Processor)new JewelSensorArmProcessor(this)
+        List<BaseProcessor> processors = Arrays.asList(
+                new ClawProcessor(this),
+                new GlyphArmProcessor(this),
+                new MovementProcessor(this),
+                new JewelSensorArmProcessor(this)
         );
 
         for (Processor processor : processors) {
