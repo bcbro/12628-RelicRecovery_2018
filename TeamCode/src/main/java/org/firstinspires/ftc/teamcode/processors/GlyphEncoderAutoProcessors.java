@@ -64,7 +64,7 @@ public class GlyphEncoderAutoProcessors extends BaseProcessor{
         processor.drop();
     }
 
-    void encoderDrive(boolean isTurning, double distance, double timeouts){
+    void encoderDrive(boolean isTurning, double distance, double timeouts, String teleopfeedback){
         double leftDistance;
         double rightDistance;
         if(isTurning){
@@ -86,29 +86,39 @@ public class GlyphEncoderAutoProcessors extends BaseProcessor{
 
         // reset the timeout time and start motion.
         runtime.reset();
-        leftDrive.setPower(abs(DRIVE_MOTOR));
-        rightDrive.setPower(abs(DRIVE_MOTOR));
+        if(isTurning) {
+            leftDrive.setPower(abs(TURN_MOTOR));
+            rightDrive.setPower(abs(TURN_MOTOR));
+        }
+        else {
+            leftDrive.setPower(abs(DRIVE_MOTOR));
+            rightDrive.setPower(abs(DRIVE_MOTOR));
+        }
         while (opMode.opModeIsActive() &&
                 (runtime.seconds() < timeouts) &&
                 (leftDrive.isBusy() && rightDrive.isBusy())) {
             // Display it for the driver.
+            getTelemetry().addData("Processing...",teleopfeedback);
             getTelemetry().addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-            getTelemetry().addData("Path2",  "Running at %7d :%7d",
+             getTelemetry().addData("Path2",  "Running at %7d :%7d",
                     leftDrive.getCurrentPosition(),
                     rightDrive.getCurrentPosition());
+            getTelemetry().update();
         }
     }
     void Move(double distance) {
+
+
         double timeouts=3.0+abs(distance)/24;
-        encoderDrive(false, distance, timeouts);
+        encoderDrive(false, distance, timeouts,"Moving "+distance+" inches.>:C");
     }
 
     void turnRight() {
-        encoderDrive(true, TURN_DISTANCE, TURN_TIMEOUT);
+        encoderDrive(true, TURN_DISTANCE, TURN_TIMEOUT,"Turning right.=DThe circleoflie");
     }
 
     void turnLeft() {
-        encoderDrive(true, -TURN_DISTANCE, TURN_TIMEOUT);
+        encoderDrive(true, -TURN_DISTANCE, TURN_TIMEOUT,"Turning Left. ;)");
     }
     void RedRelicCorner(){
         Move(36.0);

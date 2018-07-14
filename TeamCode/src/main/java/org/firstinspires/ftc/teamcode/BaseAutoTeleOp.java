@@ -74,9 +74,9 @@ public class BaseAutoTeleOp extends LinearOpMode {
 
         processors = Arrays.asList(
                 new MovementAutoProcessor(this),
-                new GlyphClawAutoProcessor(this),
+                /*new GlyphClawAutoProcessor(this),
                 new PictographProcessor(this),
-                new JewelSensorAutoArmProcessor(this, baseColor),
+                new JewelSensorAutoArmProcessor(this, baseColor),*/
                 new GlyphEncoderAutoProcessors(this, baseColor, relicSide)
         );
 

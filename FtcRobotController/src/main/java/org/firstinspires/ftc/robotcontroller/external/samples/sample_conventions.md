@@ -85,7 +85,7 @@ sensor_light
 sensor_ods
 sensor_range
 sensor_touch
-sensor_color_distance
+sensorColorDistance
 sensor_digital
 digin
 digout

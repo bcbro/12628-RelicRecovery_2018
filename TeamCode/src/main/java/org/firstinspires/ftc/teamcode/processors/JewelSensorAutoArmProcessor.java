@@ -85,9 +85,9 @@ public class JewelSensorAutoArmProcessor extends BaseProcessor{
         sensorArm.setPosition(position);
 
         // get a reference to the color sensor.
-        sensorColor = getHardwareMap().get(ColorSensor.class, "sensor_color_distance");
+        sensorColor = getHardwareMap().get(ColorSensor.class, "sensorColorDistance");
         // get a reference to the distance sensor that shares the same name.
-        sensorDistance = getHardwareMap().get(DistanceSensor.class, "sensor_color_distance");
+        sensorDistance = getHardwareMap().get(DistanceSensor.class, "sensorColorDistance");
 
         // get a reference to the RelativeLayout so we can change the background
         // color of the Robot Controller app to match the hue detected by the RGB sensor.
