@@ -85,6 +85,7 @@ public class GlyphEncoderAutoProcessors extends BaseProcessor {
 
     }
 
+
     void encoderDrive(boolean isTurning, double distance, double timeouts, String teleopfeedback) {
         double leftDistance;
         double rightDistance;
@@ -113,17 +114,20 @@ public class GlyphEncoderAutoProcessors extends BaseProcessor {
             leftDrive.setPower(abs(DRIVE_MOTOR));
             rightDrive.setPower(abs(DRIVE_MOTOR));
         }
+
         while (opMode.opModeIsActive() &&
                 (runtime.seconds() < timeouts) &&
-                (leftDrive.isBusy() && rightDrive.isBusy())) {
+                (leftDrive.isBusy() || rightDrive.isBusy())) {
             // Display it for the driver.
-            getTelemetry().addData("directions: %s :%s", leftDrive.getDirection().toString(), rightDrive.getDirection().toString());
+            getTelemetry().addData("directions:", " %s :%s", leftDrive.getDirection().toString(), rightDrive.getDirection().toString());
             getTelemetry().addData(" start move", "BaseColor %s  relic side %s", baseColor.name(), (relicSide) ? "true" : "false");
             getTelemetry().addData("Processing...", teleopfeedback);
             getTelemetry().addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-            getTelemetry().addData("Path2", "Running at %7d :%7d",
+            getTelemetry().addData("Path2", "Running at %7d :%7d sync %s",
                     leftDrive.getCurrentPosition(),
-                    rightDrive.getCurrentPosition());
+                    rightDrive.getCurrentPosition(),
+                    (abs(leftDrive.getCurrentPosition()-rightDrive.getCurrentPosition())>0.05*abs(leftDistance)) ? "OUTTA sync BUDDY BS" : "kiio 9 im synced bruh");
+
             if (newLeftTarget - leftDrive.getCurrentPosition()==0 && newRightTarget - rightDrive.getCurrentPosition()==0) {
                 getTelemetry().addData("Done", ":)");
             }
