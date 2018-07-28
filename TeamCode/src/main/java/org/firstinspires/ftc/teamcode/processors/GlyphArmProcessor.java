@@ -28,7 +28,7 @@ public class GlyphArmProcessor extends BaseProcessor {
     @Override
     public void init() {
         // Define and initialize ALL installed servos.
-        glyphArm = getHardwareMap().get(DcMotor.class, "glyph_arm");
+        glyphArm = getHardwareMap().get(DcMotor.class, "glyphArm");
         glyphArm.setPower(0);
 
         // Set all motors to run without encoders.

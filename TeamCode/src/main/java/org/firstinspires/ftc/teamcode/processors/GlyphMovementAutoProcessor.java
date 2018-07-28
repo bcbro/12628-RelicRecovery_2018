@@ -245,5 +245,4 @@ public class GlyphMovementAutoProcessor extends BaseProcessor {
         PictographProcessor processor = (PictographProcessor) ((BaseAutoTeleOp) opMode).getProcessors(PictographProcessor.class);
         return processor.vuMark;
     }
-
 }

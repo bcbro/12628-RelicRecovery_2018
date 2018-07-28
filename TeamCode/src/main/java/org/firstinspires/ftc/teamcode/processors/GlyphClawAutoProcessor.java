@@ -44,7 +44,7 @@ public class GlyphClawAutoProcessor extends BaseProcessor {
         rightClaw = getHardwareMap().get(Servo.class, "rightClaw");
         moveClaw(-CLAW_MOVE);
         // Define and initialize ALL installed servos.
-        glyphArm = getHardwareMap().get(DcMotor.class, "glyph_arm");
+        glyphArm = getHardwareMap().get(DcMotor.class, "glyphArm");
         glyphArm.setPower(0);
 
         // Set all motors to run without encoders.

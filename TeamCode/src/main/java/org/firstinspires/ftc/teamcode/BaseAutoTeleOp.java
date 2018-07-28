@@ -44,6 +44,8 @@ import org.firstinspires.ftc.teamcode.processors.JewelSensorAutoArmProcessor.Jew
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 /*
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
  * All device access is managed through the HardwarePushbot class.
